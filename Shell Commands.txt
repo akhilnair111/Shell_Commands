@@ -1,0 +1,55 @@
+1. To find out where you are in the filesystem, run the command pwd (short for "print working directory"). This prints the absolute path of your current working directory ------ pwd
+
+2. ls lists the contents of your current directory (the one displayed by pwd). If you add the names of some files, ls will list them, and if you add the names of directories, it will list their contents. ------ ls
+
+3. You are in /home/repl. Use ls with a relative path to list the file that has an absolute path of /home/repl/course.txt 
+------ ls course.txt
+
+4. You are in /home/repl. Use ls with a relative path to list the file /home/repl/seasonal/summer.csv (Relative paths do not start with a leading '/'.). 
+------ ls seasonal/summer.csv
+
+COPY
+
+5.------ cp original.txt duplicate.txt
+creates a copy of original.txt called duplicate.txt. If there already was a file called duplicate.txt, it is overwritten. If the last parameter to cp is an existing directory, then a command like:
+
+------ cp seasonal/autumn.csv seasonal/winter.csv backup
+copies all of the files into that directory.
+
+6. Make a copy of seasonal/summer.csv in the backup directory (which is also in /home/repl), calling the new file summer.bck
+------ cp seasonal/summer.csv backup/summer.bck
+
+7. Copy spring.csv and summer.csv from the seasonal directory into the backup directory without changing your current working directory (/home/repl).
+------ cp seasonal/spring.csv seasonal/summer.csv backup
+
+MOVE
+
+8. You are in /home/repl, which has sub-directories seasonal and backup. Using a single command, move spring.csv and summer.csv from seasonal to backup
+------ mv seasonal/spring.csv seasonal/summer.csv backup
+
+RENAME
+
+9. mv can also be used to rename files. If you run:
+
+------ mv course.txt old-course.txt
+then the file course.txt in the current working directory is "moved" to the file old-course.txt. This is different from the way file browsers work, but is often handy.
+
+One warning: just like cp, mv will overwrite existing files. If, for example, you already have a file called old-course.txt, then the command shown above will replace it with whatever is in course.txt
+------ mv winter.csv winter.csv.bck
+OUTPUT [autumn.csv  spring.csv  summer.csv  winter.csv.bck]
+
+DELETE
+
+10. ------ rm thesis.txt backup/thesis-2017-08.txt
+removes both thesis.txt and backup/thesis-2017-08.txt
+
+11. create and delete directories
+If you try to rm a directory, the shell prints an error message telling you it can't do that, primarily to stop you from accidentally deleting an entire directory full of work. Instead, you can use a separate command called rmdir. For added safety, it only works when the directory is empty, so you must delete the files in a directory before you delete the directory. (Experienced users can use the -r option to rm to get the same effect.
+------ rm people/agarwal.txt
+------ rmdir people
+------ mkdir yearly
+------ mkdir yearly/2017
+
+12. Move /home/repl/people/agarwal.txt into /tmp/scratch. We suggest you use the ~ shortcut for your home directory and a relative path for the second rather than the absolute path.
+------ mv ~/people/agarwal.txt scratch
+
