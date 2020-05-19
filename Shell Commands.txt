@@ -161,6 +161,51 @@ Add another command to the previous one using a pipe to remove the line containi
 Add two more stages to the pipeline that use sort -n and head -n 1 to find the file containing the fewest lines.
 ------ wc -l seasonal/*.csv | grep -v total | sort -n | head -n 1
 
-27. 
+27. print a variable's value
+print a variable's value like this:
+------ echo USER
+it will print the variable's name, USER.
+To get the variable's value, you must put a dollar sign $ in front of it. Typing
+------ echo $USER
+prints
+repl
+This is true everywhere: to get the value of a variable called X, you must write $X. (This is so that the shell can tell whether you mean "a file named X" or "the value of a variable named X".)
+
+28. How else does the shell store information
+he other kind of variable is called a shell variable, which is like a local variable in a programming language.
+To create a shell variable, you simply assign a value to a name:
+------ training=seasonal/summer.csv
+without any spaces before or after the = sign. Once you have done this, you can check the variable's value with:
+------ echo $training
+seasonal/summer.csv
+------ head -n 1 $training
+
+29. Shell variables are also used in loops, which repeat commands many times. If we run this command:
+------ for filetype in gif jpg png; do echo $filetype; done
+it produces:
+gif
+jpg
+png
+
+30. repeat a command once for each file
+------ for filename in seasonal/*.csv; do echo $filename; done
+
+31. People often set a variable using a wildcard expression to record a list of filenames. For example, if you define datasets like this:
+------ datasets=seasonal/*.csv
+you can display the files' names later using:
+------ for filename in $datasets; do echo $filename; done
+
+32. run many commands in a single loop
+Printing filenames is useful for debugging, but the real purpose of loops is to do things with multiple files. This loop prints the second line of each data file:
+------for file in seasonal/*.csv; do head -n 2 $file | tail -n 1; done
+
+33. Exercise:
+Write a loop that prints the last entry from July 2017 (2017-07) in every seasonal file. It should produce a similar output to:
+
+------grep 2017-07 seasonal/winter.csv | tail -n 1
+but for each seasonal file separately. Please use file as the name of the loop variable, and remember to loop through the list of files seasonal/*.csv (instead of 'seasonal/winter.csv' as in the example).
+
+ANS: ------ for file in seasonal/*.csv; do grep 2017-07 $file | tail -n 1; done
+
 
 
