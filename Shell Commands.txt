@@ -53,3 +53,47 @@ If you try to rm a directory, the shell prints an error message telling you it c
 12. Move /home/repl/people/agarwal.txt into /tmp/scratch. We suggest you use the ~ shortcut for your home directory and a relative path for the second rather than the absolute path.
 ------ mv ~/people/agarwal.txt scratch
 
+13. view a file's contents
+The simplest way to do this is with cat, which just prints the contents of files onto the screen. (Its name is short for "concatenate", meaning "to link things together", since it will print all the files whose names you give it, one after the other.)
+------ cat course.txt
+
+14. view a file's contents piece by piece
+less the names of several files, you can type :n (colon and a lower-case 'n') to move to the next file, :p to go back to the previous one, or :q to quit.
+------ less seasonal/spring.csv seasonal/summer.csv
+
+15. look at the start of a file
+------ head seasonal/summer.csv (default 10 lines)
+
+head will only display the first three lines of the file. If you run head -n 100, it will display the first 100 (assuming there are that many), and so on.
+A flag's name usually indicates its purpose (for example, -n is meant to signal "number of lines"). Command flags don't have to be a - followed by a single letter, but it's a widely-used convention.
+------ head -n 5 seasonal/winter.csv
+
+16. list everything below a directory
+In order to see everything underneath a directory, no matter how deeply nested it is, you can give ls the flag -R (which means "recursive").
+------ ls -R
+ls has another flag -F that prints a / after the name of every directory and a * after the name of every runnable program. Run ls with the two flags, -R and -F, and the absolute path to your home directory to see everything it contains. 
+------ ls -R -F ~
+
+17. select columns from a file
+------ cut -f 2-5,8 -d , values.csv
+which means "select columns 2 through 5 and columns 8, using comma as the separator". cut uses -f (meaning "fields") to specify columns and -d (meaning "delimiter") to specify the separator. 
+
+18. select lines containing specific values
+grep takes a piece of text followed by one or more filenames and prints all of the lines in those files that contain that text. For example, ------ grep bicuspid seasonal/winter.csv prints lines from winter.csv that contain "bicuspid".
+some of grep's more common flags:
+	-c: print a count of matching lines rather than the lines themselves
+	-h: do not print the names of files when searching multiple files
+	-i: ignore case (e.g., treat "Regression" and "regression" as matches)
+	-l: print the names of files that contain matches, not the matches
+	-n: print line numbers for matching lines
+	-v: invert the match, i.e., only show lines that don't match
+------ grep molar seasonal/autum.csv
+------ grep -v -n molar seasonal/spring.csv
+------ grep -c incisor seasonal/autumn.csv seasonal/winter.csv
+
+
+
+
+
+
+
