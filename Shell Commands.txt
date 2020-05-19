@@ -91,9 +91,76 @@ some of grep's more common flags:
 ------ grep -v -n molar seasonal/spring.csv
 ------ grep -c incisor seasonal/autumn.csv seasonal/winter.csv
 
+19. store a command's output in a file
+------ tail -n 5 seasonal/winter.csv > last.csv
+The greater-than sign > tells the shell to redirect tail's output to a file. It isn't part of the tail command; instead, it works with every shell command that produces output.
 
+20. better way to combine commands
+------ head -n 5 seasonal/summer.csv | tail -n 3
+The pipe symbol tells the shell to use the output of the command on the left as the input to the command on the right.
 
+QUES - Use cut to select all of the tooth names from column 2 of the comma delimited file seasonal/summer.csv, then pipe the result to grep, with an inverted match, to exclude the header line containing the word "Tooth". 
 
+ANS : ------ cut -f 2 -d , seasonal/summer.csv | grep -v Tooth
 
+21. count the records in a file
+The command wc (short for "word count") prints the number of characters, words, and lines in a file. You can make it print only one of these using -c, -w, or -l respectively.
+
+QUES - Count how many records in seasonal/spring.csv have dates in July 2017 (2017-07).
+
+ANS: ------ grep 2017-07 seasonal/spring.csv | wc -l
+
+22. specify many files at once
+------ cut -d , -f 1 seasonal/winter.csv seasonal/spring.csv seasonal/summer.csv seasonal/autumn.csv
+Instead use :
+------ cut -d , -f 1 seasonal/*
+or
+------ cut -d , -f 1 seasonal/*.csv
+
+QUES : Write a single command using head to get the first three lines from both seasonal/spring.csv and seasonal/summer.csv, a total of six lines of data, but not from the autumn or winter data files. Use a wildcard instead of spelling out the files' names in full.
+
+ANS : ------ head -n 3 seasonal/s*.csv
+
+23. other wildcards
+The shell has other wildcards as well, though they are less commonly used:
+
+? matches a single character, so 201?.txt will match 2017.txt or 2018.txt, but not 2017-01.txt.
+[...] matches any one of the characters inside the square brackets, so 201[78].txt matches 2017.txt or 2018.txt, but not 2016.txt.
+{...} matches any of the comma-separated patterns inside the curly brackets, so {*.txt, *.csv} matches any file whose name ends with .txt or .csv, but not files whose names end with .pdf.
+
+24. sort lines of text
+sort puts data in order. By default it does this in ascending alphabetical order, but the flags -n and -r can be used to sort numerically and reverse the order of its output, while -b tells it to ignore leading blanks and -f tells it to fold case (i.e., be case-insensitive). Pipelines often use grep to get rid of unwanted records and then sort to put the remaining records in order.
+------ cut -d , -f 2 seasonal/winter.csv | grep -v Tooth | sort -r
+
+25. remove duplicate lines
+Another command that is often used with sort is uniq, whose job is to remove duplicated lines. More specifically, it removes adjacent duplicated lines. If a file contains:
+
+2017-07-03
+2017-07-03
+2017-08-03
+2017-08-03
+then uniq will produce:
+
+2017-07-03
+2017-08-03
+but if it contains:
+
+2017-07-03
+2017-08-03
+2017-07-03
+2017-08-03
+then uniq will print all four lines. The reason is that uniq is built to work with very large files. In order to remove non-adjacent lines from a file, it would have to keep the whole file in memory (or at least, all the unique lines seen so far). By only removing adjacent duplicates, it only has to keep the most recent unique line in memory.
+------ cut -d , -f 2 seasonal/winter.csv | grep -v Tooth | sort | uniq -c
+
+26. Excercise:
+QUES: find out how many records are in the shortest of the seasonal data files.
+Use wc with appropriate parameters to list the number of lines in all of the seasonal data files. (Use a wildcard for the filenames instead of typing them all in by hand.)
+------ wc -l seasonal/*.csv
+Add another command to the previous one using a pipe to remove the line containing the word "total".
+------ wc -l seasonal/*.csv | grep -v total
+Add two more stages to the pipeline that use sort -n and head -n 1 to find the file containing the fewest lines.
+------ wc -l seasonal/*.csv | grep -v total | sort -n | head -n 1
+
+27. 
 
 
